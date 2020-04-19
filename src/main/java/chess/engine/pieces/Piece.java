@@ -7,7 +7,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.2
+ * @version 1.3
  */
 public abstract class Piece {
     // fields
@@ -24,9 +24,9 @@ public abstract class Piece {
      */
     public Piece(ColourEnum colour, Board board, MyPair<Integer, Integer> position) {
         this.colour = colour;
+        this.position = position;
         this.board = board;
         this.board.addPiece(this);
-        this.position = position;
     }
 
     /**
