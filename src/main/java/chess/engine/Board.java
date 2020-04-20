@@ -7,7 +7,7 @@ import chess.engine.pieces.Piece;
  * Implementation of a chess board
  * 
  * @author Andrea Galvan
- * @version 1.3
+ * @version 1.4
  */
 public class Board {
     // fields
@@ -32,7 +32,7 @@ public class Board {
         for(int i = 0; i < SIZE; i++)
             for(int j = 0; j < SIZE; j++)
                 if(board.grid[i][j] != null)
-                    grid[i][j] = board.grid[i][j].getClass().getConstructor(Piece.class, Board.class).newInstance(board.grid[i][j], this);
+                    grid[i][j] = board.grid[i][j].getClass().getConstructor(board.grid[i][j].getClass(), Board.class).newInstance(board.grid[i][j], this);
     }
 
     //getter/setter
