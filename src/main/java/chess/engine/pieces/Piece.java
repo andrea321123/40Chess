@@ -7,7 +7,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.3
+ * @version 1.4
  */
 public abstract class Piece {
     // fields
@@ -53,6 +53,15 @@ public abstract class Piece {
     }
 
     //getter/setter
+    public ColourEnum getColor(){
+        return colour;
+    }
+    public Board getBoard(){
+        return board;
+    }
+    public PieceEnum getPiece(){
+        return piece;
+    }
     public MyPair<Integer, Integer> getPosition(){
         return position;
     }
