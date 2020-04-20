@@ -7,7 +7,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.4
+ * @version 1.5
  */
 public abstract class Piece {
     // fields
@@ -64,5 +64,8 @@ public abstract class Piece {
     }
     public MyPair<Integer, Integer> getPosition(){
         return position;
+    }
+    public void setBoard(Board board){
+        this.board = board;
     }
 }
