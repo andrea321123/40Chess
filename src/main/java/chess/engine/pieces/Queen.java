@@ -8,7 +8,7 @@ import myutil.MyPair;
 /**
  * Implements a queen piece
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class Queen extends Piece {
     /**
@@ -33,5 +33,12 @@ public class Queen extends Piece {
     }
 
     @Override
-    public LinkedList<MyPair<Integer, Integer>> possibleMoves() {return null;}
+    public LinkedList<MyPair<Integer, Integer>> possibleMoves() {
+        LinkedList<MyPair<Integer,Integer>> moves = new LinkedList<>();
+
+        moves.addAll(SampleMoves.horizontalMoves(this));
+        moves.addAll(SampleMoves.verticalMoves(this));
+        moves.addAll(SampleMoves.diagonalMoves(this));
+        return moves;
+    }
 }
