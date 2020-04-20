@@ -1,13 +1,15 @@
 package chess.engine.pieces;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedList;
 import chess.engine.*;
+import exception.InvalidMoveException;
 import myutil.MyPair;
 
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.5
+ * @version 1.6
  */
 public abstract class Piece {
     // fields
@@ -67,5 +69,36 @@ public abstract class Piece {
     }
     public void setBoard(Board board){
         this.board = board;
+    }
+
+    /**
+     * Returns all possible moves that the piece could do
+     * @return list of all possible moves
+     * @throws InvalidMoveException thrown when the final position isn't a valid move
+     */
+    public abstract LinkedList<MyPair<Integer, Integer>> possibleMoves();
+
+    public void move(MyPair<Integer, Integer> position) throws InvalidMoveException{
+        //check if the move is valid
+        LinkedList<MyPair<Integer, Integer>> possibleMoves = possibleMoves();
+        for(int i = 0; i < possibleMoves.size(); i++){
+            if(possibleMoves.get(i).equals(position))
+                break;
+            
+            if(i == possibleMoves.size() -1)    //last move
+                throw new InvalidMoveException();
+        }
+
+        //move the piece
+        board.removePiece(this);
+        this.position = position;
+        board.addPiece(this);
+    }
+
+    @Override
+    public String toString(){
+        return "Position: " + position.toString() + "\n" +
+            "Colour: " + colour + "\n" +
+            "Piece: " + piece + "\n";
     }
 }
