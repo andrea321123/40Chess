@@ -8,7 +8,7 @@ import myutil.MyPair;
 /**
  * Implements a knight piece
  * @author Andrea Galvan
- * @version 1.2
+ * @version 1.3
  */
 public class Knight extends Piece {
     /**
@@ -51,7 +51,7 @@ public class Knight extends Piece {
 
         for(int i = 0; i < allMoves.size(); i++)
             try{
-                if(getBoard().getGrid()[allMoves.get(i).getFirst()][allMoves.get(i).getSecond()].getColor() != getColor())
+                if(getBoard().getGrid()[allMoves.get(i).getFirst()][allMoves.get(i).getSecond()].getColour() != getColour())
                     moves.add(allMoves.get(i));
             }
             catch(NullPointerException e){

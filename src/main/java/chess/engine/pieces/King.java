@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a king piece
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class King extends Piece {
     private boolean neverMoved;
@@ -46,7 +46,7 @@ public class King extends Piece {
         for(int i = iPos -1; i <= iPos +1; i++)
             for(int j = jPos -1; j <= jPos +1; j++)
                 try{
-                    if(getBoard().getGrid()[i][j].getColor() != getColor())
+                    if(getBoard().getGrid()[i][j].getColour() != getColour())
                         moves.add(new MyPair<>(i, j));
                 }
                 catch(NullPointerException e){

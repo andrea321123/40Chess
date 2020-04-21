@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a pawn piece
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class Pawn extends Piece {
     private boolean neverMoved;
@@ -40,7 +40,7 @@ public class Pawn extends Piece {
     @Override
     public LinkedList<MyPair<Integer, Integer>> possibleMoves() {
         int plusMinus;      //the offset to apply to i position to go to the front of the pawn
-        if(getColor() == ColourEnum.WHITE)
+        if(getColour() == ColourEnum.WHITE)
             plusMinus = -1;
         else
             plusMinus = 1;
@@ -49,16 +49,15 @@ public class Pawn extends Piece {
 
         LinkedList<MyPair<Integer, Integer>> moves = new LinkedList<>();
 
-        
-        if(iPos != 0 && getBoard().getGrid()[iPos + plusMinus][jPos] == null){
-            moves.add(new MyPair<>(iPos +plusMinus, jPos));
-            if(neverMoved && getBoard().getGrid()[iPos + (plusMinus *2)][jPos] == null)
-                moves.add(new MyPair<>(iPos + (plusMinus *2), jPos));
+        if (iPos != 0 && getBoard().getGrid()[iPos + plusMinus][jPos] == null) {
+            moves.add(new MyPair<>(iPos + plusMinus, jPos));
+            if (neverMoved && getBoard().getGrid()[iPos + (plusMinus * 2)][jPos] == null)
+                moves.add(new MyPair<>(iPos + (plusMinus * 2), jPos));
         }
 
-        for(int i = -1; i < 2; i += 2)  //both diagonal moves
-            try{
-                if(getBoard().getGrid()[iPos +plusMinus][jPos + i].getColor() != getColor())
+        for (int i = -1; i < 2; i += 2) // both diagonal moves
+            try {
+                if (getBoard().getGrid()[iPos + plusMinus][jPos + i].getColour() != getColour())
                     moves.add(new MyPair<>(iPos + plusMinus, jPos + i));
             }
             catch(Exception e){}
