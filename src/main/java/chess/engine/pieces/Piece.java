@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.7
+ * @version 1.8
  */
 public abstract class Piece {
     // fields
@@ -93,9 +93,10 @@ public abstract class Piece {
         }
 
         //move the piece
+        Board boardReference = board;
         board.removePiece(this);
         this.position = position;
-        board.addPiece(this);
+        boardReference.addPiece(this);
     }
 
     @Override
