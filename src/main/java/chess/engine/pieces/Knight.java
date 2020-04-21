@@ -8,7 +8,7 @@ import myutil.MyPair;
 /**
  * Implements a knight piece
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class Knight extends Piece {
     /**
@@ -19,7 +19,7 @@ public class Knight extends Piece {
      */
     public Knight(ColourEnum colour, Board board, MyPair<Integer, Integer> position) {
         super(colour, board, position);
-        piece = PieceEnum.ROOK;
+        piece = PieceEnum.KNIGHT;
     }
     /**
      * Copy constructor; copy the piece on the given board
@@ -29,7 +29,7 @@ public class Knight extends Piece {
     public Knight(Knight knight, Board board) throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super(knight, board);
-        piece = PieceEnum.ROOK;
+        piece = PieceEnum.KNIGHT;
     }
 
     @Override
