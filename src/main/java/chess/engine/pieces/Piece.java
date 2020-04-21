@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.8
+ * @version 1.9
  */
 public abstract class Piece {
     // fields
@@ -55,7 +55,7 @@ public abstract class Piece {
     }
 
     //getter/setter
-    public ColourEnum getColor(){
+    public ColourEnum getColour(){
         return colour;
     }
     public Board getBoard(){
