@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a king piece
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class King extends Piece {
     private boolean neverMoved;
@@ -22,7 +22,7 @@ public class King extends Piece {
      */
     public King(ColourEnum colour, Board board, MyPair<Integer, Integer> position) {
         super(colour, board, position);
-        piece = PieceEnum.PAWN;
+        piece = PieceEnum.KING;
         neverMoved = true;
     }
     /**
@@ -33,7 +33,7 @@ public class King extends Piece {
     public King(King king, Board board) throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super(king, board);
-        piece = PieceEnum.PAWN;
+        piece = PieceEnum.KING;
         neverMoved = true;
     }
 
