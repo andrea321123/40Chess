@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.6
+ * @version 1.7
  */
 public abstract class Piece {
     // fields
@@ -74,10 +74,13 @@ public abstract class Piece {
     /**
      * Returns all possible moves that the piece could do
      * @return list of all possible moves
-     * @throws InvalidMoveException thrown when the final position isn't a valid move
      */
     public abstract LinkedList<MyPair<Integer, Integer>> possibleMoves();
 
+    /**
+     * Move to piece to parameter position
+     * @throws InvalidMoveException thrown when the final position isn't a valid move
+     */
     public void move(MyPair<Integer, Integer> position) throws InvalidMoveException{
         //check if the move is valid
         LinkedList<MyPair<Integer, Integer>> possibleMoves = possibleMoves();
