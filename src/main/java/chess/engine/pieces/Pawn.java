@@ -7,9 +7,9 @@ import exception.InvalidMoveException;
 import myutil.MyPair;
 
 /**
- * Implements a knight piece
+ * Implements a pawn piece
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class Pawn extends Piece {
     private boolean neverMoved;
@@ -49,16 +49,17 @@ public class Pawn extends Piece {
 
         LinkedList<MyPair<Integer, Integer>> moves = new LinkedList<>();
 
-        if(iPos != 0 && getBoard().getGrid()[iPos -1][jPos] == null){
-            moves.add(new MyPair<>(iPos -plusMinus, jPos));
-            if(neverMoved && getBoard().getGrid()[iPos -1][jPos] == null)
-                moves.add(new MyPair<>(iPos - (plusMinus *2), jPos));
+        
+        if(iPos != 0 && getBoard().getGrid()[iPos + plusMinus][jPos] == null){
+            moves.add(new MyPair<>(iPos +plusMinus, jPos));
+            if(neverMoved && getBoard().getGrid()[iPos + (plusMinus *2)][jPos] == null)
+                moves.add(new MyPair<>(iPos + (plusMinus *2), jPos));
         }
 
         for(int i = -1; i < 2; i += 2)  //both diagonal moves
             try{
-                if(getBoard().getGrid()[iPos +plusMinus][jPos +1].getColor() != getColor())
-                    moves.add(new MyPair<>(iPos - plusMinus, jPos + i));
+                if(getBoard().getGrid()[iPos +plusMinus][jPos + i].getColor() != getColor())
+                    moves.add(new MyPair<>(iPos + plusMinus, jPos + i));
             }
             catch(Exception e){}
 

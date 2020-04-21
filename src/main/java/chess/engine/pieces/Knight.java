@@ -8,7 +8,7 @@ import myutil.MyPair;
 /**
  * Implements a knight piece
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class Knight extends Piece {
     /**
@@ -51,10 +51,13 @@ public class Knight extends Piece {
 
         for(int i = 0; i < allMoves.size(); i++)
             try{
-                if(getBoard().getGrid()[allMoves.get(i).getFirst()][allMoves.get(i).getFirst()].getColor() != getColor())
+                if(getBoard().getGrid()[allMoves.get(i).getFirst()][allMoves.get(i).getSecond()].getColor() != getColor())
                     moves.add(allMoves.get(i));
             }
-            catch(Exception e){}    //NullPointerException or ArrayIndexOutOfBoundsException
+            catch(NullPointerException e){
+                moves.add(allMoves.get(i));
+            }
+            catch(ArrayIndexOutOfBoundsException e){}
         
         return moves;
     }
