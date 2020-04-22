@@ -9,7 +9,7 @@ import myutil.MyPair;
  * Implementation of a chess board
  * 
  * @author Andrea Galvan
- * @version 1.5
+ * @version 1.6
  */
 public class Board {
     // fields
@@ -105,6 +105,49 @@ public class Board {
                 } catch (NullPointerException e) {}
 
         return pieces;
+    }
+
+    /**
+     * Returns the king of colour parameter
+     * @param colour colour of the king to be searched
+     * @return king of colour parameter
+     */
+    public King kingByColour(ColourEnum colour){
+        LinkedList<Piece> pieces = piecesByColour(colour);
+        for(int i = 0; i < pieces.size(); i++)
+            if(pieces.get(i).getPiece() == PieceEnum.KING)
+                return (King)pieces.get(i);
+        
+        return null;
+    }
+
+    /**
+     * Return the colour of the player who suffers a check
+     * @return
+     */
+    public ColourEnum check(){
+        LinkedList<Piece> pieces = piecesByColour(ColourEnum.WHITE);
+
+        //looking for white pieces
+        King blackKing = kingByColour(ColourEnum.BLACK);
+        for(int i = 0; i < pieces.size(); i++)
+            try{
+                if(pieces.get(i).possibleMoves().contains(blackKing.getPosition()))
+                    return ColourEnum.BLACK;
+            }
+            catch(NullPointerException e){}     //if piece can't move
+
+        //looking for black pieces
+        pieces = piecesByColour(ColourEnum.BLACK);
+        King whiteKing = kingByColour(ColourEnum.WHITE);
+        for(int i = 0; i < pieces.size(); i++)
+            try{
+                if(pieces.get(i).possibleMoves().contains(whiteKing.getPosition()))
+                    return ColourEnum.WHITE;
+            }
+            catch(NullPointerException e){}     //if piece can't move
+
+        return null;        //no check
     }
 
     @Override

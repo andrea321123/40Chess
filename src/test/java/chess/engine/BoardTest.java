@@ -1,14 +1,14 @@
 package chess.engine;
 
 import org.junit.Test;
-import chess.engine.pieces.PieceEnum;
+
 import chess.engine.pieces.*;
 import myutil.MyPair;
 import static org.junit.Assert.*;
 
 /**
  * @author Andrea Galvan
- * @version 1.2
+ * @version 1.3
  */
 public class BoardTest {
     @Test
@@ -47,5 +47,36 @@ public class BoardTest {
 
         test.addPiece(new Queen(ColourEnum.WHITE, test, new MyPair<>(4, 4)));
         assertTrue(test.piecesByColour(ColourEnum.WHITE).size() == 17);
+    }
+    @Test
+    public void kingByColourTest(){
+        Board test = new Board();
+        test.initialize();
+        assertTrue(test.kingByColour(ColourEnum.WHITE) == test.getGrid()[7][4]);
+        assertTrue(test.kingByColour(ColourEnum.BLACK) == test.getGrid()[0][4]);
+    }
+    @Test
+    public void checkTest(){
+        Board test = new Board();
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(7, 7)));
+        test.addPiece(new Queen(ColourEnum.WHITE, test, new MyPair<>(5, 7)));
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(5, 0)));
+        assertTrue(test.check() == ColourEnum.BLACK);
+
+        test = new Board();
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(7, 7)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 0)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(6, 0)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(7, 0)));
+        assertTrue(test.check() == ColourEnum.WHITE);
+        test.removePiece(test.getGrid()[7][0]);
+        assertTrue(test.check() == null);
+
+        test = new Board();
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(7, 7)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 0)));
+        assertTrue(test.check() == null);
+        test.addPiece(new Bishop(ColourEnum.BLACK, test, new MyPair<>(1, 1)));
+        assertTrue(test.check() == ColourEnum.WHITE);
     }
 }
