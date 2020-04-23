@@ -3,12 +3,13 @@ package chess.engine.pieces;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import chess.engine.*;
+import exception.InvalidMoveException;
 import myutil.MyPair;
 
 /**
  * Implements a rook piece
  * @author Andrea Galvan
- * @version 1.2
+ * @version 1.3
  */
 public class Rook extends Piece {
     private boolean neverMoved;
@@ -47,5 +48,11 @@ public class Rook extends Piece {
         moves.addAll(SampleMoves.horizontalMoves(this));
         moves.addAll(SampleMoves.verticalMoves(this));
         return moves;
+    }
+
+    @Override
+    public void move(MyPair<Integer, Integer> position) throws InvalidMoveException{
+        super.move(position);
+        neverMoved = false;
     }
 }
