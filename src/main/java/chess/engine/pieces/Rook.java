@@ -8,7 +8,7 @@ import myutil.MyPair;
 /**
  * Implements a rook piece
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class Rook extends Piece {
     private boolean neverMoved;
@@ -33,6 +33,11 @@ public class Rook extends Piece {
         super(rook, board);
         piece = PieceEnum.ROOK;
         neverMoved = rook.neverMoved;
+    }
+
+    //getter/setter
+    public boolean isNeverMoved(){
+        return neverMoved;
     }
 
     @Override
