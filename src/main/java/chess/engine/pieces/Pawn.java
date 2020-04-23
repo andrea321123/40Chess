@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a pawn piece
  * @author Andrea Galvan
- * @version 1.2
+ * @version 1.3
  */
 public class Pawn extends Piece {
     private boolean neverMoved;
@@ -34,7 +34,7 @@ public class Pawn extends Piece {
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super(pawn, board);
         piece = PieceEnum.PAWN;
-        neverMoved = true;
+        neverMoved = pawn.neverMoved;
     }
 
     @Override

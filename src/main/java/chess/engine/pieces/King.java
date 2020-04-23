@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a king piece
  * @author Andrea Galvan
- * @version 1.3
+ * @version 1.4
  */
 public class King extends Piece {
     private boolean neverMoved;
@@ -34,7 +34,7 @@ public class King extends Piece {
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super(king, board);
         piece = PieceEnum.KING;
-        neverMoved = true;
+        neverMoved = king.neverMoved;
     }
 
     //check if there is check in a position parameter

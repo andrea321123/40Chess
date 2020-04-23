@@ -8,9 +8,10 @@ import myutil.MyPair;
 /**
  * Implements a rook piece
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class Rook extends Piece {
+    private boolean neverMoved;
     /**
      * Main constructor
      * @param colour   rook's colour
@@ -20,6 +21,7 @@ public class Rook extends Piece {
     public Rook(ColourEnum colour, Board board, MyPair<Integer, Integer> position) {
         super(colour, board, position);
         piece = PieceEnum.ROOK;
+        neverMoved = true;
     }
     /**
      * Copy constructor; copy the piece on the given board
@@ -30,6 +32,7 @@ public class Rook extends Piece {
             IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         super(rook, board);
         piece = PieceEnum.ROOK;
+        neverMoved = rook.neverMoved;
     }
 
     @Override
