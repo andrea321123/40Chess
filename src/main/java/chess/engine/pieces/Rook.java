@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a rook piece
  * @author Andrea Galvan
- * @version 1.3
+ * @version 1.4
  */
 public class Rook extends Piece {
     private boolean neverMoved;
@@ -39,6 +39,9 @@ public class Rook extends Piece {
     //getter/setter
     public boolean isNeverMoved(){
         return neverMoved;
+    }
+    public void setNeverMoved(boolean neverMoved){
+        this.neverMoved = neverMoved;
     }
 
     @Override
