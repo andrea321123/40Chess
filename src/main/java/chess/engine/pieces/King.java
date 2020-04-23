@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Implements a king piece
  * @author Andrea Galvan
- * @version 1.4
+ * @version 1.5
  */
 public class King extends Piece {
     private boolean neverMoved;
@@ -74,24 +74,70 @@ public class King extends Piece {
                 }
                 catch(ArrayIndexOutOfBoundsException e){}
 
-                //remove possible moves of the opposite king
-                ColourEnum oppositeColour;
-                if(getColour() == ColourEnum.WHITE)
-                    oppositeColour = ColourEnum.BLACK;
-                else
-                    oppositeColour = ColourEnum.WHITE;
-                MyPair<Integer, Integer> oppositeKingPosition = getBoard().kingByColour(oppositeColour).getPosition();
-                for(int i = oppositeKingPosition.getFirst() -1; i <= oppositeKingPosition.getFirst() +1; i++)
-                    for(int j = oppositeKingPosition.getSecond() -1; j <= oppositeKingPosition.getSecond() +1; j++)
-                        moves.remove(new MyPair<>(i, j));
+        //remove possible moves of the opposite king
+        ColourEnum oppositeColour;
+        if(getColour() == ColourEnum.WHITE)
+            oppositeColour = ColourEnum.BLACK;
+        else
+            oppositeColour = ColourEnum.WHITE;
+        MyPair<Integer, Integer> oppositeKingPosition = getBoard().kingByColour(oppositeColour).getPosition();
+        for(int i = oppositeKingPosition.getFirst() -1; i <= oppositeKingPosition.getFirst() +1; i++)
+            for(int j = oppositeKingPosition.getSecond() -1; j <= oppositeKingPosition.getSecond() +1; j++)
+                moves.remove(new MyPair<>(i, j));
 
-    //TODO Aggiungere l'arrocco
+        //looking for castlings
+        if(neverMoved){
+            //short castling
+            try{
+                if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() +3].getPiece() == PieceEnum.ROOK){
+                    Rook rook = (Rook)getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() +3];
+                    if(rook.isNeverMoved())
+                        if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() +1] == null)
+                            if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() +2] == null)
+                                if(!checkIn(new MyPair<>(getPosition().getFirst(), getPosition().getSecond() +1)))
+                                    if(!checkIn(new MyPair<>(getPosition().getFirst(), getPosition().getSecond() +2)))
+                                        moves.add(new MyPair<>(getPosition().getFirst(), getPosition().getSecond() +2));
+                }
+            }
+            catch(Exception e){}
+
+            //long castling
+            try{
+                if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() -4].getPiece() == PieceEnum.ROOK){
+                    Rook rook = (Rook)getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() -4];
+                    if(rook.isNeverMoved())
+                        if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() -1] == null)
+                            if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() -2] == null)
+                                if(getBoard().getGrid()[getPosition().getFirst()][getPosition().getSecond() -3] == null)
+                                    if(!checkIn(new MyPair<>(getPosition().getFirst(), getPosition().getSecond() -1)))
+                                        if(!checkIn(new MyPair<>(getPosition().getFirst(), getPosition().getSecond() -2)))
+                                                moves.add(new MyPair<>(getPosition().getFirst(), getPosition().getSecond() -2));
+                }
+            }
+            catch(NullPointerException e){}
+        }
         return moves;
     }
 
     @Override
     public void move(MyPair<Integer, Integer> position) throws InvalidMoveException{
+        int oldJPosition = getPosition().getSecond();
+
         super.move(position);
         neverMoved = false;
+        if(Math.abs(position.getSecond() - oldJPosition) > 1){
+            if(position.getSecond() > oldJPosition){   //short castling
+                getBoard().removePiece(getBoard().getGrid()[position.getFirst()][7]);
+                Rook rook = new Rook(getColour(), getBoard(), new MyPair<>(position.getFirst(), position.getSecond() -1));
+                getBoard().addPiece(rook);
+                rook.setNeverMoved(false);
+            }
+            else{       //long castling
+                getBoard().removePiece(getBoard().getGrid()[position.getFirst()][0]);
+                Rook rook = new Rook(getColour(), getBoard(), new MyPair<>(position.getFirst(), position.getSecond() +1));
+                getBoard().addPiece(rook);
+                rook.setNeverMoved(false);
+            }
+        }
     }
 }
