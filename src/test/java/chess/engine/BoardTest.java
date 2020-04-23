@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 /**
  * @author Andrea Galvan
- * @version 1.3
+ * @version 1.4
  */
 public class BoardTest {
     @Test
@@ -78,5 +78,36 @@ public class BoardTest {
         assertTrue(test.check() == null);
         test.addPiece(new Bishop(ColourEnum.BLACK, test, new MyPair<>(1, 1)));
         assertTrue(test.check() == ColourEnum.WHITE);
+
+        test = new Board();
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(7, 7)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 0)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(0, 6)));
+        assertTrue(test.check() == null);
+        test.getGrid()[0][6].move(new MyPair<>(0,7));
+        assertTrue(test.check() == ColourEnum.WHITE);
+        test.addPiece(new Queen(ColourEnum.WHITE, test, new MyPair<>(3, 7)));
+        assertTrue(test.check() == null);
+        test.getGrid()[0][7].move(new MyPair<>(3,7));
+        assertTrue(test.check() == ColourEnum.WHITE);
+    }
+    @Test
+    public void checkMateTest(){
+        Board test = new Board();
+
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(7, 7)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 0)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(6, 0)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(7, 0)));
+        assertTrue(test.checkMate() == ColourEnum.WHITE);
+
+        test = new Board();
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(2, 1)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 0)));
+        assertTrue(test.checkMate() == null);
+        test.addPiece(new Queen(ColourEnum.WHITE, test, new MyPair<>(1, 1)));
+
+        assertTrue(test.checkMate() == ColourEnum.BLACK);
+        
     }
 }

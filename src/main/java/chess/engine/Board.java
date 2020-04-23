@@ -9,7 +9,7 @@ import myutil.MyPair;
  * Implementation of a chess board
  * 
  * @author Andrea Galvan
- * @version 1.6
+ * @version 1.7
  */
 public class Board {
     // fields
@@ -123,12 +123,12 @@ public class Board {
 
     /**
      * Return the colour of the player who suffers a check
-     * @return
      */
     public ColourEnum check(){
         LinkedList<Piece> pieces = piecesByColour(ColourEnum.WHITE);
 
         //looking for white pieces
+        pieces.remove(kingByColour(ColourEnum.WHITE));
         King blackKing = kingByColour(ColourEnum.BLACK);
         for(int i = 0; i < pieces.size(); i++)
             try{
@@ -139,6 +139,7 @@ public class Board {
 
         //looking for black pieces
         pieces = piecesByColour(ColourEnum.BLACK);
+        pieces.remove(kingByColour(ColourEnum.BLACK));
         King whiteKing = kingByColour(ColourEnum.WHITE);
         for(int i = 0; i < pieces.size(); i++)
             try{
@@ -148,6 +149,18 @@ public class Board {
             catch(NullPointerException e){}     //if piece can't move
 
         return null;        //no check
+    }
+
+    /**
+     * Return the colour of the player who suffers a checkmate
+     */
+    public ColourEnum checkMate(){
+        if(kingByColour(ColourEnum.WHITE).possibleMoves().size() == 0)
+            return ColourEnum.WHITE;
+        if(kingByColour(ColourEnum.BLACK).possibleMoves().size() == 0)
+            return ColourEnum.BLACK;
+            
+        return null;    //no checkmate
     }
 
     @Override
