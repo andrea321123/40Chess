@@ -7,7 +7,7 @@ import chess.engine.pieces.*;
 
 /**
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class EvaluationTest {
     @Test
@@ -38,7 +38,6 @@ public class EvaluationTest {
         board = new Board();
         board.addPiece(new Queen(ColourEnum.WHITE, board, new MyPair<>(2, 3)));
         board.addPiece(new Queen(ColourEnum.BLACK, board, new MyPair<>(0, 0)));
-        System.out.println(test.evaluation(board));
         assertTrue(test.evaluation(board) == 5 + 20);
     }
 }
