@@ -6,14 +6,14 @@ import myutil.*;
 /**
  * Search the best move from a given position
  * @author Andrea Galvan
- * @version 1.2
+ * @version 1.3
  */
 public class Search {
     private MyTree<MyPair<Board, Integer>> tree;
     public static final int DEPTH = 3;
     static int conta = 0;
     Evaluation evaluation;
-
+    
     public Search(){
         conta = 0;
         tree = new MyTree<>();
@@ -29,7 +29,7 @@ public class Search {
         for(int i = 0; i < moves.size(); i++)
             if(tree.getChildren().get(i).getInfo().getSecond() == best)
                 return moves.get(i);
-            return null;
+        return null;
     }
 
     private int min(int n1, int n2){
@@ -58,7 +58,7 @@ public class Search {
             return evaluation.evaluation(tree.getInfo().getFirst());
         }
         depth++;
-        System.out.println(conta++);
+        
         //recursive action
         LinkedList<Move> moves = tree.getInfo().getFirst().possibleMoves(colour);
 
