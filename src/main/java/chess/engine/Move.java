@@ -6,7 +6,7 @@ import myutil.MyPair;
  * Implements a chess move
  * 
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class Move {
     private MyPair<Integer, Integer> from;
@@ -46,6 +46,6 @@ public class Move {
 
     @Override
     public String toString(){
-        return "From: " + from.toString() + "\nTo: " + to.toString();
+        return "From: " + from.toString() + "To: " + to.toString() + "\n";
     }
 }
