@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.9
+ * @version 1.10
  */
 public abstract class Piece {
     // fields
@@ -91,6 +91,8 @@ public abstract class Piece {
             if(i == possibleMoves.size() -1)    //last move
                 throw new InvalidMoveException();
         }
+        if(possibleMoves.size() == 0)
+            throw new InvalidMoveException();
 
         //move the piece
         Board boardReference = board;

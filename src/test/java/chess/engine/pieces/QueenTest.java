@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 /**
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class QueenTest {
     @Test
@@ -34,5 +34,10 @@ public class QueenTest {
         assertTrue(test.possibleMoves().contains(new MyPair<>(2, 3)));
         assertTrue(!test.possibleMoves().contains(new MyPair<>(4, 7)));
         assertTrue(!test.possibleMoves().contains(new MyPair<>(2, 1)));
+
+        board = new Board();
+        board.initialize();
+        test = (Queen)board.getGrid()[7][3];
+        assertTrue(test.possibleMoves().size() == 0);
     }
 }

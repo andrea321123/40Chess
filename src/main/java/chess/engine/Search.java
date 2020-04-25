@@ -1,17 +1,18 @@
 package chess.engine;
 
 import java.util.LinkedList;
+import java.util.Scanner;
+
 import myutil.*;
 
 /**
  * Search the best move from a given position
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class Search {
-    private MyTree<Board> tree;
+    private MyTree<MyPair<Board, Integer>> tree;
     public static final int DEPTH = 2;
-    public int conta = 0;
     Evaluation evaluation;
 
     public Search(){
@@ -19,17 +20,14 @@ public class Search {
         evaluation = new Evaluation();
     }
 
-    public void setBoard(Board board){
-        tree.setInfo(board);
-    }
-
     public Move bestMove(Board board, ColourEnum colour){
-        tree = new MyTree<>();
+        tree = new MyTree<>(new MyPair<>(board, 0));
         int best = minimax(0, tree, colour);
-        LinkedList<Move> moves = tree.getInfo().possibleMoves(colour);
+        LinkedList<Move> moves = tree.getInfo().getFirst().possibleMoves(colour);
 
-        //for(int i = 0; i < moves.size(); i++)
-            //if(tree.getChildren().get(i).getInfo())
+        for(int i = 0; i < moves.size(); i++)
+            if(tree.getChildren().get(i).getInfo().getSecond() == best)
+                return moves.get(i);
             return null;
     }
 
@@ -71,44 +69,42 @@ public class Search {
         return ColourEnum.WHITE;
     }
 
-    private int minimax(int depth, MyTree<Board> tree, ColourEnum colour){
+    private int minimax(int depth, MyTree<MyPair<Board, Integer>> tree, ColourEnum colour){
         //exit condition
-        if(depth == DEPTH +1 || tree.getInfo().possibleMoves(colour).size() == 0)
-            return evaluation.evaluation(tree.getInfo());
+        if(depth == DEPTH +1 || tree.getInfo().getFirst().possibleMoves(colour).size() == 0)
+            return evaluation.evaluation(tree.getInfo().getFirst());
         depth++;
 
         //recursive action
-        LinkedList<Move> moves = tree.getInfo().possibleMoves(colour);
+        LinkedList<Move> moves = tree.getInfo().getFirst().possibleMoves(colour);
         LinkedList<Integer> evaluationsList = new LinkedList<>();
 
         //add child for each move
         for(int i = 0; i < moves.size(); i++){
             Board nextBoard;
             try{
-                nextBoard = new Board(tree.getInfo());
+                nextBoard = new Board(tree.getInfo().getFirst());
             }
             catch(Exception e){
                 nextBoard = new Board();
             }
             nextBoard.getGrid()[moves.get(i).getFrom().getFirst()][moves.get(i).getFrom().getSecond()].
                     move(moves.get(i).getTo());
-            MyTree<Board> child = new MyTree<>(nextBoard);
+            MyTree<MyPair<Board, Integer>> child = new MyTree<>(new MyPair<>(nextBoard, 0));
             tree.addChild(child);
-            evaluationsList.add(minimax(depth, new MyTree<>(nextBoard), oppositeColour(colour)));
+            evaluationsList.add(minimax(depth, child, oppositeColour(colour)));
         }
 
-            System.out.println(conta++);
         //minimax application
-        if(colour == ColourEnum.WHITE)
-            return max(evaluationsList);
-        else
-            return min(evaluationsList);
-    }
-
-    public static void main(String[] a){
-        Board b = new Board();
-        Search search = new Search();
-        b.initialize();
-        System.out.println(search.minimax(0, new MyTree<>(b), ColourEnum.WHITE));
+        int ret;
+        if(colour == ColourEnum.WHITE){
+            ret = max(evaluationsList);
+            tree.getInfo().setSecond(ret);
+        }
+        else{
+            ret = min(evaluationsList);
+            tree.getInfo().setSecond(ret);
+        }
+        return ret;
     }
 }
