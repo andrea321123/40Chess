@@ -43,4 +43,9 @@ public class Move {
     public void setTo(MyPair<Integer, Integer> to){
         this.to = to;
     }
+
+    @Override
+    public String toString(){
+        return "From: " + from.toString() + "\nTo: " + to.toString();
+    }
 }
