@@ -1,28 +1,29 @@
 package chess.engine;
 
 import java.util.LinkedList;
-import java.util.Scanner;
-
 import myutil.*;
 
 /**
  * Search the best move from a given position
  * @author Andrea Galvan
- * @version 1.1
+ * @version 1.2
  */
 public class Search {
     private MyTree<MyPair<Board, Integer>> tree;
-    public static final int DEPTH = 2;
+    public static final int DEPTH = 3;
+    static int conta = 0;
     Evaluation evaluation;
 
     public Search(){
+        conta = 0;
         tree = new MyTree<>();
         evaluation = new Evaluation();
     }
 
     public Move bestMove(Board board, ColourEnum colour){
+        conta = 0;
         tree = new MyTree<>(new MyPair<>(board, 0));
-        int best = minimax(0, tree, colour);
+        int best = minimax(0, tree, colour, -1000000, 1000000);
         LinkedList<Move> moves = tree.getInfo().getFirst().possibleMoves(colour);
 
         for(int i = 0; i < moves.size(); i++)
@@ -31,36 +32,16 @@ public class Search {
             return null;
     }
 
-    private int min(LinkedList<Integer> list){
-        int min;
-        try{
-            min = list.get(0);
-        }
-        catch(Exception e){
-            return 0;
-        }
-
-        for(int i = 1; i < list.size(); i++)
-            if(list.get(i) < min)
-                min = list.get(i);
-        
-        return min;
+    private int min(int n1, int n2){
+        if(n1 <= n2)
+            return n1;
+        return n2;
     }
 
-    private int max(LinkedList<Integer> list){
-        int max;
-        try{
-            max = list.get(0);
-        }
-        catch(Exception e){
-            return 0;
-        }
-
-        for(int i = 1; i < list.size(); i++)
-            if(list.get(i) > max)
-                max = list.get(i);
-        
-        return max;
+    private int max(int n1, int n2){
+        if(n1 >= n2)
+            return n1;
+        return n2;
     }
 
     private ColourEnum oppositeColour(ColourEnum colour){
@@ -69,42 +50,67 @@ public class Search {
         return ColourEnum.WHITE;
     }
 
-    private int minimax(int depth, MyTree<MyPair<Board, Integer>> tree, ColourEnum colour){
+    private int minimax(int depth, MyTree<MyPair<Board, Integer>> tree, ColourEnum colour, int alpha, int beta){
         //exit condition
-        if(depth == DEPTH +1 || tree.getInfo().getFirst().possibleMoves(colour).size() == 0)
+        if(depth == DEPTH +1 || tree.getInfo().getFirst().possibleMoves(colour).size() == 0){
+            int ret = evaluation.evaluation(tree.getInfo().getFirst());
+            tree.getInfo().setSecond(ret);
             return evaluation.evaluation(tree.getInfo().getFirst());
+        }
         depth++;
-
+        System.out.println(conta++);
         //recursive action
         LinkedList<Move> moves = tree.getInfo().getFirst().possibleMoves(colour);
-        LinkedList<Integer> evaluationsList = new LinkedList<>();
 
-        //add child for each move
-        for(int i = 0; i < moves.size(); i++){
-            Board nextBoard;
-            try{
-                nextBoard = new Board(tree.getInfo().getFirst());
-            }
-            catch(Exception e){
-                nextBoard = new Board();
-            }
-            nextBoard.getGrid()[moves.get(i).getFrom().getFirst()][moves.get(i).getFrom().getSecond()].
+        if(colour == ColourEnum.WHITE){     //maximize
+            int bestvalue = -1000000;
+            for(int i = 0; i < moves.size(); i++){
+                //add the child
+                Board nextBoard;
+                try{
+                    nextBoard = new Board(tree.getInfo().getFirst());
+                }
+                catch(Exception e){
+                    nextBoard = new Board();
+                }
+                nextBoard.getGrid()[moves.get(i).getFrom().getFirst()][moves.get(i).getFrom().getSecond()].
                     move(moves.get(i).getTo());
-            MyTree<MyPair<Board, Integer>> child = new MyTree<>(new MyPair<>(nextBoard, 0));
-            tree.addChild(child);
-            evaluationsList.add(minimax(depth, child, oppositeColour(colour)));
+                
+                MyTree<MyPair<Board, Integer>> child = new MyTree<>(new MyPair<>(nextBoard, 0));
+                tree.addChild(child);
+                int value = minimax(depth, child, oppositeColour(colour), alpha, beta);
+                bestvalue = max(bestvalue, value);
+                alpha = max(alpha, bestvalue);
+                if(beta <= alpha)
+                    break;
+            }
+            tree.getInfo().setSecond(bestvalue);
+            return bestvalue;
         }
-
-        //minimax application
-        int ret;
-        if(colour == ColourEnum.WHITE){
-            ret = max(evaluationsList);
-            tree.getInfo().setSecond(ret);
+        else{       //minimize
+            int bestvalue = 1000000;
+            for(int i = 0; i < moves.size(); i++){
+                //add the child
+                Board nextBoard;
+                try{
+                    nextBoard = new Board(tree.getInfo().getFirst());
+                }
+                catch(Exception e){
+                    nextBoard = new Board();
+                }
+                nextBoard.getGrid()[moves.get(i).getFrom().getFirst()][moves.get(i).getFrom().getSecond()].
+                    move(moves.get(i).getTo());
+                
+                MyTree<MyPair<Board, Integer>> child = new MyTree<>(new MyPair<>(nextBoard, 0));
+                tree.addChild(child);
+                int value = minimax(depth, child, oppositeColour(colour), alpha, beta);
+                bestvalue = min(bestvalue, value);
+                beta = min(beta, bestvalue);
+                if(beta <= alpha)
+                    break;   
+            }
+            tree.getInfo().setSecond(bestvalue);
+            return bestvalue;
         }
-        else{
-            ret = min(evaluationsList);
-            tree.getInfo().setSecond(ret);
-        }
-        return ret;
     }
 }
