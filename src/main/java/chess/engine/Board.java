@@ -9,7 +9,7 @@ import myutil.MyPair;
  * Implementation of a chess board
  * 
  * @author Andrea Galvan
- * @version 1.7
+ * @version 1.8
  */
 public class Board {
     // fields
@@ -155,12 +155,38 @@ public class Board {
      * Return the colour of the player who suffers a checkmate
      */
     public ColourEnum checkMate(){
-        if(kingByColour(ColourEnum.WHITE).possibleMoves().size() == 0)
+        if(possibleMoves(ColourEnum.WHITE).size() == 0)
             return ColourEnum.WHITE;
-        if(kingByColour(ColourEnum.BLACK).possibleMoves().size() == 0)
+        if(possibleMoves(ColourEnum.BLACK).size() == 0)
             return ColourEnum.BLACK;
-            
-        return null;    //no checkmate
+
+        return null;
+    }
+
+    public LinkedList<Move> possibleMoves(ColourEnum colour){
+        LinkedList<Move> moves = new LinkedList<>();
+        LinkedList<Piece> pieces = piecesByColour(colour);
+
+        for(int i = 0; i < pieces.size(); i++){
+            LinkedList<MyPair<Integer, Integer>> possibleMoves = pieces.get(i).possibleMoves();
+            for(int j = 0; j < possibleMoves.size(); j++){
+                Board copy;
+                try{
+                    copy = new Board(this);
+                }
+                catch(Exception e){
+                    copy = new Board();
+                }
+
+                Piece toMove = copy.getGrid()[pieces.get(i).getPosition().getFirst()][pieces.get(i).getPosition().getSecond()];
+                copy.getGrid()[toMove.getPosition().getFirst()][toMove.getPosition().getSecond()].move(possibleMoves.get(j));
+
+                if(copy.check() != colour)
+                    moves.add(new Move(pieces.get(i).getPosition(), possibleMoves.get(j)));
+            }
+        }
+
+        return moves;
     }
 
     @Override

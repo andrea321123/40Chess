@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 /**
  * @author Andrea Galvan
- * @version 1.4
+ * @version 1.5
  */
 public class BoardTest {
     @Test
@@ -100,14 +100,30 @@ public class BoardTest {
         test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(6, 0)));
         test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(7, 0)));
         assertTrue(test.checkMate() == ColourEnum.WHITE);
+    }
+    @Test
+    public void possibleMovesTest(){
+        Board test = new Board();
+        test.initialize();
+
+        test.addPiece(new Knight(ColourEnum.BLACK, test, new MyPair<>(5, 5)));
+        assertTrue(test.possibleMoves(ColourEnum.WHITE).size() == 3);
 
         test = new Board();
-        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(2, 1)));
-        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 0)));
-        assertTrue(test.checkMate() == null);
-        test.addPiece(new Queen(ColourEnum.WHITE, test, new MyPair<>(1, 1)));
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(7, 4)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 4)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(3, 4)));
+        test.addPiece(new Queen(ColourEnum.WHITE, test, new MyPair<>(5, 4)));
+        assertTrue(test.possibleMoves(ColourEnum.BLACK).size() == 9);
+        assertTrue(test.possibleMoves(ColourEnum.WHITE).size() == 8);
 
-        assertTrue(test.checkMate() == ColourEnum.BLACK);
-        
+        test = new Board();
+        test.addPiece(new King(ColourEnum.WHITE, test, new MyPair<>(7, 4)));
+        test.addPiece(new King(ColourEnum.BLACK, test, new MyPair<>(0, 4)));
+        test.addPiece(new Rook(ColourEnum.BLACK, test, new MyPair<>(3, 3)));
+        test.addPiece(new Bishop(ColourEnum.WHITE, test, new MyPair<>(5, 3)));
+        assertTrue(test.possibleMoves(ColourEnum.WHITE).size() == 16);
+        test.getGrid()[5][3].move(new MyPair<>(3, 5));
+        assertTrue(test.possibleMoves(ColourEnum.WHITE).size() == 14);
     }
 }
