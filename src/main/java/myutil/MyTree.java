@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * Implementantion of a generic tree
  * @author Andrea Galvan
- * @version 1.0
+ * @version 1.1
  */
 public class MyTree <T> {
     private T info;
@@ -45,6 +45,14 @@ public class MyTree <T> {
      */
     public void addChild(MyTree<T> child){
         children.add(child);
+    }
+    /**
+     * Add a new child to the children list at position index
+     * @param index index of element
+     * @param child child to add
+     */
+    public void addChild(int index, MyTree<T> child){
+        children.add(index, child);
     }
 
     /**
