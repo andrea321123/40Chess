@@ -9,7 +9,7 @@ import myutil.MyPair;
 /**
  * Piece of the board
  * @author Andrea Galvan
- * @version 1.10
+ * @version 2.0
  */
 public abstract class Piece {
     // fields
@@ -106,5 +106,15 @@ public abstract class Piece {
         return "Position: " + position.toString() + "\n" +
             "Colour: " + colour + "\n" +
             "Piece: " + piece + "\n";
+    }
+    @Override
+    public boolean equals(Object o){
+        Piece piece = (Piece)o;
+        if(colour == piece.colour)
+            if(position.equals(piece.position))
+                if(this.piece == piece.piece)
+                    return true;
+        
+        return false;
     }
 }
