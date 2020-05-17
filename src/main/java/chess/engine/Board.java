@@ -9,7 +9,7 @@ import myutil.MyPair;
  * Implementation of a chess board
  * 
  * @author Andrea Galvan
- * @version 1.8
+ * @version 2.0
  */
 public class Board {
     // fields
@@ -229,5 +229,22 @@ public class Board {
             string += "|\n";
         }
         return string;
+    }
+    @Override
+    public int hashCode(){
+        return toString().hashCode();
+    }
+    @Override
+    public boolean equals(Object o){
+        Board board = (Board)o;
+        for(int i = 0; i < SIZE; i++)
+            for(int j = 0; j < SIZE; j++)
+                try{
+                    if(!grid[i][j].equals(board.grid[i][j]))
+                        return false;
+                }
+                catch(NullPointerException e){}
+        
+        return true;
     }
 }
