@@ -1,6 +1,27 @@
-# 40Chess
- 40Chess is an UCI-compatible chess engine written in Java.
- 
-### Installing
-You can just download the jar file at directory target/40Chess-x.x.jar. To connect with your chess software, refer to how to add an engine on your chess software GUI.
-This engine will run on Windows, Linux and Mac OS X. You should use a recent version of Java because of better performance
+<p>
+  <h1>40Chess</h1>
+  <p>
+    40Chess is an UCI-compatible chess engine written in Java
+  </p>
+</p>
+
+### Installation
+
+If you want ot skip the build process, go to the <a href="https://github.com/andrea321123/40Chess/releases">release</a> page.
+Here are the steps to build the engine from sources:
+
+1. Clone the repo
+```sh
+git clone https://github.com/andrea321123/40Chess
+```
+2. Compile with Maven
+```sh
+mvn clean compile
+mvn package
+```
+
+Jar file should be found in target directory. <br>
+
+## Usage
+
+40Chess is only an engine, therefore it must be used with a chess GUI program. 40Chess is tested using the <a href=http://www.playwitharena.de/>Arena GUI</a>.
