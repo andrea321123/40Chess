@@ -1,8 +1,0 @@
-chess/engine/BoardTest.class
-chess/engine/pieces/KnightTest.class
-chess/engine/pieces/QueenTest.class
-chess/engine/pieces/PawnTest.class
-chess/engine/pieces/BishopTest.class
-chess/engine/EvaluationTest.class
-chess/engine/pieces/KingTest.class
-chess/engine/pieces/RookTest.class
